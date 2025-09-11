@@ -7,16 +7,21 @@ import { CreateTaskUseCase } from './aplication/create-task.usecase';
 import { UpdateTaskStatusUseCase } from './aplication/update-task-status.usecase';
 import { DeleteTaskUseCase } from './aplication/delete-task.usecase';
 import { ListTasksUseCase } from './aplication/list-tasks.usecase';
+import { UsersModule } from '../users/users.module';
+import { UserRepositoryImpl } from '../users/infrastructure/persistence/user-repository.impl';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TaskSchema])],
+  imports: [TypeOrmModule.forFeature([TaskSchema]), UsersModule],
   controllers: [TaskController],
   providers: [
     TaskRepositoryImpl,
     {
       provide: CreateTaskUseCase,
-      useFactory: (repo: TaskRepositoryImpl) => new CreateTaskUseCase(repo),
-      inject: [TaskRepositoryImpl],
+      useFactory: (
+        taskRepo: TaskRepositoryImpl,
+        userRepo: UserRepositoryImpl,
+      ) => new CreateTaskUseCase(taskRepo, userRepo),
+      inject: [TaskRepositoryImpl, UserRepositoryImpl],
     },
     {
       provide: UpdateTaskStatusUseCase,

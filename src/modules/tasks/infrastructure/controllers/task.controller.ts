@@ -1,5 +1,6 @@
 import {
   Body,
+  ConflictException,
   Controller,
   Delete,
   Get,
@@ -9,12 +10,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { CreateTaskDto } from '../dtos/create-task.dto';
-import { TaskStatus } from '../../domain/task.entity';
 import { UpdateTaskStatusDto } from '../dtos/update-task-status.dto';
 import { ListTasksUseCase } from '../../aplication/list-tasks.usecase';
 import { DeleteTaskUseCase } from '../../aplication/delete-task.usecase';
 import { UpdateTaskStatusUseCase } from '../../aplication/update-task-status.usecase';
 import { CreateTaskUseCase } from '../../aplication/create-task.usecase';
+import { ListTaskDto } from '../dtos/list-task.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -27,14 +28,16 @@ export class TaskController {
 
   @Post()
   async create(@Body() dto: CreateTaskDto) {
-    return await this.createTask.execute(dto);
+    try {
+      return await this.createTask.execute(dto);
+    } catch (error) {
+      throw new ConflictException(error.message);
+    }
   }
 
   @Get()
-  async list(
-    @Query('userId') userId: string,
-    @Query('status') status?: TaskStatus,
-  ) {
+  async list(@Query() query: ListTaskDto) {
+    const { userId, status } = query;
     return await this.listTasks.execute({ userId, status });
   }
 

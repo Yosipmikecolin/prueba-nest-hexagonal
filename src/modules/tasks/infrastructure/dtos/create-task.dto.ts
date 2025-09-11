@@ -1,13 +1,23 @@
-import { IsNotEmpty, IsUUID, IsDateString } from 'class-validator';
+import {
+  IsUUID,
+  IsDateString,
+  IsString,
+  MinLength,
+  Validate,
+} from 'class-validator';
+import { IsFutureDate } from '../validators/future-date.validator';
 
 export class CreateTaskDto {
-  @IsNotEmpty()
+  @IsString()
+  @MinLength(10)
   title: string;
 
-  @IsNotEmpty()
+  @IsString()
+  @MinLength(5)
   description: string;
 
   @IsDateString()
+  @Validate(IsFutureDate)
   dueDate: Date;
 
   @IsUUID()

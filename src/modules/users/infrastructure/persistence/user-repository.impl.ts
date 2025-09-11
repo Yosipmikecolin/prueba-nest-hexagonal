@@ -18,8 +18,11 @@ export class UserRepositoryImpl implements UserRepository {
 
   async findByEmail(email: string): Promise<User | null> {
     const user = await this.ormRepo.findOne({ where: { email } });
-    return user
-      ? new User(user.id, user.email, user.name, user.createdAt)
-      : null;
+    return user;
+  }
+
+  async findById(idUser: string): Promise<User | null> {
+    const user = await this.ormRepo.findOne({ where: { id: idUser } });
+    return user;
   }
 }

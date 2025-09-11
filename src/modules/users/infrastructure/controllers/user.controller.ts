@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { ConflictException, Body, Controller, Post } from '@nestjs/common';
 import { CreateUserUseCase } from '../../aplication/create-user.usecase';
 import { CreateUserDto } from '../dtos/create-user.dto';
 
@@ -8,6 +8,10 @@ export class UserController {
 
   @Post()
   async create(@Body() dto: CreateUserDto) {
-    return await this.createUser.execute(dto);
+    try {
+      return await this.createUser.execute(dto);
+    } catch (error) {
+      throw new ConflictException(error.message);
+    }
   }
 }

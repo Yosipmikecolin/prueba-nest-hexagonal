@@ -22,5 +22,5 @@ export class TaskSchema {
   userId: string;
 
   @Column({ default: false })
-  isDelete: boolean;
+  isDeleted: boolean;
 }

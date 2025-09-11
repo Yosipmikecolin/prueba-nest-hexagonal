@@ -11,6 +11,6 @@ export class Task {
     public status: TaskStatus,
     public readonly dueDate: Date = new Date(),
     public userId: string,
-    public isDelete: boolean = false,
+    public isDeleted: boolean = false,
   ) {}
 }

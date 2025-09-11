@@ -26,21 +26,13 @@ export class TaskRepositoryImpl implements TaskRepository {
     }
 
     const tasks = await qb.getMany();
-    return tasks.map(
-      (t) =>
-        new Task(
-          t.title,
-          t.description,
-          t.status,
-          t.dueDate,
-          t.userId,
-          t.isDelete,
-        ),
-    );
+    return tasks;
   }
 
   async updateStatus(id: string, status: TaskStatus): Promise<Task | null> {
-    const task = await this.ormRepo.findOne({ where: { id, isDelete: false } });
+    const task = await this.ormRepo.findOne({
+      where: { id, isDeleted: false },
+    });
 
     if (!task) {
       return null;
@@ -53,12 +45,24 @@ export class TaskRepositoryImpl implements TaskRepository {
         updated.status,
         updated.dueDate,
         updated.userId,
-        updated.isDelete,
+        updated.isDeleted,
       );
     }
   }
 
   async softDelete(id: string): Promise<void> {
-    await this.ormRepo.update({ id }, { isDelete: true });
+    await this.ormRepo.update({ id }, { isDeleted: true });
+  }
+
+  async findTitle(title: string, userId: string): Promise<Task | null> {
+    const task = await this.ormRepo.findOne({ where: { title, userId } });
+    return task;
+  }
+
+  validateDate(date: string): boolean {
+    const dueDate = new Date(date);
+    const today = new Date();
+    dueDate.setHours(0, 0, 0, 0);
+    return dueDate < today;
   }
 }

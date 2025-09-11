@@ -16,5 +16,6 @@ import { CreateUserUseCase } from './aplication/create-user.usecase';
       inject: [UserRepositoryImpl],
     },
   ],
+  exports: [UserRepositoryImpl],
 })
 export class UsersModule {}

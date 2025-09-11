@@ -1,5 +1,21 @@
-version: "3.9"
+version: '3.9'
 services:
+  api:
+    build: .
+    container_name: nest-manager-app
+    ports:
+      - '3000:3000'
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: yosip
+      DB_PASS: postgres
+      DB_NAME: nest_db
+
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     image: postgres:15
     container_name: nest-manager-db
@@ -9,7 +25,13 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: nest_db
     ports:
-      - "5432:5432"
+      - '5432:5432'
+
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U yosip -d nest_db']
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - db_data:/var/lib/postgresql/data
 

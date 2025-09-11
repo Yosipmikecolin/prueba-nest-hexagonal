@@ -26,6 +26,7 @@ export class CreateTaskUseCase {
       input.title,
       input.userId,
     );
+
     if (existing) {
       throw new Error('There is already a task with that title');
     }

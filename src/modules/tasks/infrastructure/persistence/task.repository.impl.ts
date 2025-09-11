@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { TaskRepository } from '../../domain/task.repository';
 import { TaskSchema } from './task.schema';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -55,8 +55,7 @@ export class TaskRepositoryImpl implements TaskRepository {
   }
 
   async findTitle(title: string, userId: string): Promise<Task | null> {
-    const task = await this.ormRepo.findOne({ where: { title, userId } });
-    return task;
+    return await this.ormRepo.findOne({ where: { title, userId } });
   }
 
   validateDate(date: string): boolean {
@@ -64,5 +63,9 @@ export class TaskRepositoryImpl implements TaskRepository {
     const today = new Date();
     dueDate.setHours(0, 0, 0, 0);
     return dueDate < today;
+  }
+
+  async findById(id: string): Promise<Task | null> {
+    return await this.ormRepo.findOne({ where: { id } });
   }
 }

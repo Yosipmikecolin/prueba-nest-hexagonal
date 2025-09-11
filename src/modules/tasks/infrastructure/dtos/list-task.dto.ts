@@ -1,4 +1,4 @@
-import { IsEnum, IsUUID } from 'class-validator';
+import { IsEnum, IsOptional, IsUUID } from 'class-validator';
 import { TaskStatus } from '../../domain/task.entity';
 
 export class ListTaskDto {
@@ -6,5 +6,6 @@ export class ListTaskDto {
   userId: string;
 
   @IsEnum(TaskStatus)
+  @IsOptional()
   status: TaskStatus;
 }

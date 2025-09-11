@@ -4,7 +4,9 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -47,7 +49,12 @@ export class TaskController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return await this.deleteTask.execute(id);
+  @HttpCode(204)
+  async delete(@Param('id', ParseUUIDPipe) id: string) {
+    try {
+      await this.deleteTask.execute(id);
+    } catch (error) {
+      throw new ConflictException(error.message);
+    }
   }
 }

@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import { CreateTaskDto } from '../dtos/create-task.dto';
 import { UpdateTaskStatusDto } from '../dtos/update-task-status.dto';
-import { ListTasksUseCase } from '../../aplication/list-tasks.usecase';
-import { DeleteTaskUseCase } from '../../aplication/delete-task.usecase';
-import { UpdateTaskStatusUseCase } from '../../aplication/update-task-status.usecase';
-import { CreateTaskUseCase } from '../../aplication/create-task.usecase';
+import { ListTasksUseCase } from '../../application/list-tasks.usecase';
+import { DeleteTaskUseCase } from '../../application/delete-task.usecase';
+import { UpdateTaskStatusUseCase } from '../../application/update-task-status.usecase';
+import { CreateTaskUseCase } from '../../application/create-task.usecase';
 import { ListTaskDto } from '../dtos/list-task.dto';
 
 @Controller('tasks')

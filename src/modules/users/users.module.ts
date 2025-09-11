@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserSchema } from './infrastructure/persistence/user.schema';
 import { UserController } from './infrastructure/controllers/user.controller';
 import { UserRepositoryImpl } from './infrastructure/persistence/user-repository.impl';
-import { CreateUserUseCase } from './aplication/create-user.usecase';
+import { CreateUserUseCase } from './application/create-user.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserSchema])],

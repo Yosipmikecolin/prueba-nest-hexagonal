@@ -1,6 +1,5 @@
 import { User } from '../domain/user.entity';
 import { UserRepository } from '../domain/user.repository';
-import { v4 as uuid } from 'uuid';
 
 export class CreateUserUseCase {
   constructor(private readonly userRepository: UserRepository) {}
@@ -10,7 +9,7 @@ export class CreateUserUseCase {
     if (existing) {
       throw new Error('User with this email already exists');
     } else {
-      const user = new User(uuid(), input.email, input.name);
+      const user = new User(input.email, input.name);
       return await this.userRepository.save(user);
     }
   }

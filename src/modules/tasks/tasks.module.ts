@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskSchema } from './infrastructure/persistence/task.schema';
 import { TaskRepositoryImpl } from './infrastructure/persistence/task.repository.impl';
 import { TaskController } from './infrastructure/controllers/task.controller';
-import { CreateTaskUseCase } from './aplication/create-task.usecase';
-import { UpdateTaskStatusUseCase } from './aplication/update-task-status.usecase';
-import { DeleteTaskUseCase } from './aplication/delete-task.usecase';
-import { ListTasksUseCase } from './aplication/list-tasks.usecase';
+import { CreateTaskUseCase } from './application/create-task.usecase';
+import { UpdateTaskStatusUseCase } from './application/update-task-status.usecase';
+import { DeleteTaskUseCase } from './application/delete-task.usecase';
+import { ListTasksUseCase } from './application/list-tasks.usecase';
 import { UsersModule } from '../users/users.module';
 import { UserRepositoryImpl } from '../users/infrastructure/persistence/user-repository.impl';
 

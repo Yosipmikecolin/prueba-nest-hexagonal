@@ -1,5 +1,5 @@
 import { ConflictException, Body, Controller, Post } from '@nestjs/common';
-import { CreateUserUseCase } from '../../aplication/create-user.usecase';
+import { CreateUserUseCase } from '../../application/create-user.usecase';
 import { CreateUserDto } from '../dtos/create-user.dto';
 
 @Controller('users')

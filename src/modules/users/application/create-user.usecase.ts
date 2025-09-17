@@ -8,7 +8,7 @@ export class CreateUserUseCase {
   async execute(input: { email: string; name: string }): Promise<User> {
     const existing = await this.userRepository.findByEmail(input.email);
     if (existing) {
-      throw new ExistingUserError(existing.name);
+      throw new ExistingUserError(existing.email);
     } else {
       const user = new User(input.email, input.name);
       return await this.userRepository.save(user);

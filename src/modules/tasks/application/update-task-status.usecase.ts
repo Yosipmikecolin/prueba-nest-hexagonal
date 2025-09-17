@@ -1,6 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
 import { TaskStatus } from '../domain/task.entity';
 import { TaskRepository } from '../domain/task.repository';
+import { TaskNotDeleteError } from '../domain/errors';
 
 export class UpdateTaskStatusUseCase {
   constructor(private readonly taskRepository: TaskRepository) {}
@@ -8,7 +8,7 @@ export class UpdateTaskStatusUseCase {
   async execute(input: { id: string; status: TaskStatus }) {
     const task = await this.taskRepository.updateStatus(input.id, input.status);
     if (!task) {
-      throw new BadRequestException('This task is deleted');
+      throw new TaskNotDeleteError();
     } else {
       return task;
     }

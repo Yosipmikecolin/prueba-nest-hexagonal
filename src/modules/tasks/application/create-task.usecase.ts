@@ -1,7 +1,7 @@
 import { UserRepository } from 'src/modules/users/domain/user.repository';
 import { Task, TaskStatus } from '../domain/task.entity';
 import { TaskRepository } from '../domain/task.repository';
-import { NotFoundException } from '@nestjs/common';
+import { ExistingTitleError, UserNotFoundError } from '../domain/errors';
 
 interface Input {
   title: string;
@@ -19,7 +19,7 @@ export class CreateTaskUseCase {
   async execute(input: Input) {
     const user = await this.userRepository.findById(input.userId);
     if (!user) {
-      throw new NotFoundException(`User with ID ${input.userId} not found`);
+      throw new UserNotFoundError(input.userId);
     }
 
     const existing = await this.taskRepository.findTitle(
@@ -28,7 +28,7 @@ export class CreateTaskUseCase {
     );
 
     if (existing) {
-      throw new Error('There is already a task with that title');
+      throw new ExistingTitleError();
     }
 
     const task = new Task(

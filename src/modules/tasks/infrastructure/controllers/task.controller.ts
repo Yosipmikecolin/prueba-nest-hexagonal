@@ -1,6 +1,5 @@
 import {
   Body,
-  ConflictException,
   Controller,
   Delete,
   Get,
@@ -51,11 +50,7 @@ export class TaskController {
   })
   @Post()
   async create(@Body() dto: CreateTaskDto) {
-    try {
-      return await this.createTask.execute(dto);
-    } catch (error) {
-      throw new ConflictException(error.message);
-    }
+    return await this.createTask.execute(dto);
   }
 
   @ApiOperation({ summary: 'Obtener todas las tareas' })
@@ -122,10 +117,6 @@ export class TaskController {
   @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id', ParseUUIDPipe) id: string) {
-    try {
-      await this.deleteTask.execute(id);
-    } catch (error) {
-      throw new ConflictException(error.message);
-    }
+    return await this.deleteTask.execute(id);
   }
 }

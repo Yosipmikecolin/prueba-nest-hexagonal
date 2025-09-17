@@ -1,5 +1,5 @@
-import { NotFoundException } from '@nestjs/common';
 import { TaskRepository } from '../domain/task.repository';
+import { TaskNotDeleteError, TaskNotFoundError } from '../domain/errors';
 
 export class DeleteTaskUseCase {
   constructor(private readonly taskRepository: TaskRepository) {}
@@ -7,11 +7,11 @@ export class DeleteTaskUseCase {
   async execute(id: string) {
     const task = await this.taskRepository.findById(id);
     if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
+      throw new TaskNotFoundError(id);
     }
 
     if (task.isDeleted) {
-      throw new NotFoundException('The task is already deleted');
+      throw new TaskNotDeleteError();
     }
 
     await this.taskRepository.softDelete(id);

@@ -1,4 +1,4 @@
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { TaskRepository } from '../../domain/task.repository';
 import { TaskSchema } from './task.schema';
 import { InjectRepository } from '@nestjs/typeorm';

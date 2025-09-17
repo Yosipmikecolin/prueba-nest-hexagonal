@@ -1,4 +1,4 @@
-import { ConflictException, Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CreateUserUseCase } from '../../application/create-user.usecase';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -26,10 +26,6 @@ export class UserController {
     },
   })
   async create(@Body() dto: CreateUserDto) {
-    try {
-      return await this.createUser.execute(dto);
-    } catch (error) {
-      throw new ConflictException(error.message);
-    }
+    return await this.createUser.execute(dto);
   }
 }

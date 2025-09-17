@@ -1,3 +1,4 @@
+import { ExistingUserError } from '../domain/errors/existing-user.errors';
 import { User } from '../domain/user.entity';
 import { UserRepository } from '../domain/user.repository';
 
@@ -7,7 +8,7 @@ export class CreateUserUseCase {
   async execute(input: { email: string; name: string }): Promise<User> {
     const existing = await this.userRepository.findByEmail(input.email);
     if (existing) {
-      throw new Error('User with this email already exists');
+      throw new ExistingUserError(existing.name);
     } else {
       const user = new User(input.email, input.name);
       return await this.userRepository.save(user);
